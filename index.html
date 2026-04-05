@@ -27,6 +27,15 @@
             display: flex; flex-direction: column; align-items: center;
         }
 
+        .top-bar {
+            width: 100%; max-width: 1250px; display: flex; justify-content: flex-end; margin-bottom: 10px;
+        }
+
+        .btn-login {
+            padding: 8px 16px; background: white; border: 1px solid var(--accent-color);
+            color: var(--accent-color); border-radius: 8px; cursor: pointer; font-weight: 600;
+        }
+
         .header-date {
             font-size: 1.1rem; font-weight: 600; margin-bottom: 20px;
             padding: 10px 20px; background: white; border-radius: 10px;
@@ -39,6 +48,9 @@
         }
 
         h2 { margin-top: 0; color: var(--text-main); text-align: center; margin-bottom: 30px; }
+
+        /* 로그인 전에는 숨김 */
+        #adminSection { display: none; }
 
         .upload-section {
             display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
@@ -69,11 +81,12 @@
 
         .btn-download {
             padding: 5px 10px; background: #28a745; color: white;
-            border: none; border-radius: 5px; font-weight: 600; cursor: pointer; margin-bottom: 3px;
+            border: none; border-radius: 5px; font-weight: 600; cursor: pointer;
         }
         .btn-delete {
             padding: 5px 10px; background: var(--danger-color); color: white;
             border: none; border-radius: 5px; font-weight: 600; cursor: pointer;
+            display: none; /* 로그인 시에만 노출 */
         }
 
         .footer { margin-top: 40px; font-size: 0.8rem; color: #999; text-align: center; }
@@ -81,86 +94,55 @@
 </head>
 <body>
 
+    <div class="top-bar">
+        <button id="authBtn" class="btn-login">Google 로그인</button>
+    </div>
+
     <div id="fullDateDisplay" class="header-date">로딩 중...</div>
 
     <div class="container">
         <h2>문서 DB</h2>
         
-        <form id="docForm" class="upload-section">
-            <div class="input-group">
-                <label>학년 *</label>
-                <select id="grade" required>
-                    <option value="">선택</option>
-                    <option value="1">1학년</option>
-                    <option value="2">2학년</option>
-                    <option value="3">3학년</option>
-                </select>
-            </div>
-            <div class="input-group">
-                <label>학기 *</label>
-                <select id="semester" required>
-                    <option value="">선택</option>
-                    <option value="1">1학기</option>
-                    <option value="2">2학기</option>
-                </select>
-            </div>
-            <div class="input-group">
-                <label>과목 *</label>
-                <select id="subject" required>
-                    <option value="">선택</option>
-                    <option value="공통국어1">공통국어1</option>
-                    <option value="공통수학1">공통수학1</option>
-                    <option value="공통수학2">공통수학2</option>
-                    <option value="공통영어1">공통영어1</option>
-                    <option value="과학탐구실험">과학탐구실험</option>
-                    <option value="무학년 심화 과학 과제 연구">무학년 심화 과학 과제 연구</option>
-                    <option value="미술">미술</option>
-                    <option value="방과후 고전 시가">방과후 고전 시가</option>
-                    <option value="방과후 물리">방과후 물리</option>
-                    <option value="방과후 공통수학1, 2">방과후 공통수학1, 2</option>
-                    <option value="영어프리젠테이션">영어프리젠테이션</option>
-                    <option value="정주영학">정주영학</option>
-                    <option value="정보">정보</option>
-                    <option value="지구과학1">지구과학1</option>
-                    <option value="체육">체육</option>
-                    <option value="통합과학1">통합과학1</option>
-                    <option value="통합사회1">통합사회1</option>
-                    <option value="학년 독서">학년 독서</option>
-                </select>
-            </div>
-            <div class="input-group">
-                <label>분류 *</label>
-                <select id="category" required>
-                    <option value="">선택</option>
-                    <option value="개념정리">개념정리</option>
-                    <option value="수행평가">수행평가</option>
-                    <option value="지필고사">지필고사</option>
-                </select>
-            </div>
-            <div class="input-group">
-                <label>단원 *</label>
-                <select id="unit" required></select>
-            </div>
-            <div class="input-group full-width">
-                <label>비고 (선택)</label>
-                <textarea id="note" rows="2" placeholder="비고 내용을 입력하세요."></textarea>
-            </div>
-            <button type="submit" class="btn-submit" id="submitBtn">문서 정보 등록</button>
-        </form>
+        <div id="adminSection">
+            <form id="docForm" class="upload-section">
+                <div class="input-group">
+                    <label>학년 *</label>
+                    <select id="grade" required>
+                        <option value="1">1학년</option><option value="2">2학년</option><option value="3">3학년</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label>학기 *</label>
+                    <select id="semester" required><option value="1">1학기</option><option value="2">2학기</option></select>
+                </div>
+                <div class="input-group">
+                    <label>과목 *</label>
+                    <select id="subject" required>
+                        <option value="공통국어1">공통국어1</option><option value="공통수학1">공통수학1</option>
+                        <option value="공통수학2">공통수학2</option><option value="공통영어1">공통영어1</option>
+                        <option value="과학탐구실험">과학탐구실험</option><option value="지구과학1">지구과학1</option>
+                        <option value="통합과학1">통합과학1</option><option value="통합사회1">통합사회1</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label>분류 *</label>
+                    <select id="category" required>
+                        <option value="개념정리">개념정리</option>
+                        <option value="수행평가">수행평가</option>
+                        <option value="지필고사">지필고사</option>
+                    </select>
+                </div>
+                <div class="input-group"><label>단원 *</label><select id="unit" required></select></div>
+                <div class="input-group full-width"><label>비고</label><textarea id="note" rows="2"></textarea></div>
+                <button type="submit" class="btn-submit" id="submitBtn">문서 정보 등록</button>
+            </form>
+        </div>
 
         <div class="table-wrapper">
             <table>
                 <thead>
                     <tr>
-                        <th>번호</th>
-                        <th>식별 번호</th>
-                        <th>학년</th>
-                        <th>학기</th>
-                        <th>과목</th>
-                        <th>분류</th>
-                        <th>단원</th>
-                        <th style="width: 150px;">비고</th>
-                        <th>관리</th>
+                        <th>번호</th><th>식별 번호</th><th>학년</th><th>학기</th><th>과목</th><th>분류</th><th>단원</th><th>비고</th><th>관리</th>
                     </tr>
                 </thead>
                 <tbody id="documentList"></tbody>
@@ -168,13 +150,12 @@
         </div>
     </div>
 
-    <div class="footer">
-        © 2026. 민준 All rights reserved.
-    </div>
+    <div class="footer">© 2026. 민준 All rights reserved.</div>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
         import { getFirestore, collection, addDoc, query, orderBy, onSnapshot, serverTimestamp, doc, deleteDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+        import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyAD_DwAzvYFgEBzq_-PanyQswju5WcYmW4",
@@ -186,121 +167,108 @@
 
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
+        const auth = getAuth(app);
+        const provider = new GoogleAuthProvider();
 
-        // 민준님이 수정한 파일명 적용
-        const localFileNames = {
-            "개념정리": "concept.pdf",
-            "수행평가": "performance.pdf",
-            "지필고사": "exam.pdf"
-        };
+        const localFileNames = { "개념정리": "concept.pdf", "수행평가": "performance.pdf", "지필고사": "exam.pdf" };
 
+        // 단원 생성
         const unitSelect = document.getElementById('unit');
         for (let i = 1; i <= 20; i++) {
-            let opt = document.createElement('option');
-            opt.value = i; opt.innerText = i + "단원";
+            let opt = document.createElement('option'); opt.value = i; opt.innerText = i + "단원";
             unitSelect.appendChild(opt);
         }
 
+        // 시계 업데이트
         function updateClock() {
             const now = new Date();
             const days = ['일요일', '월요일', '화요일', '수요일', '목요일', '금요일', '토요일'];
-            const dateStr = `${now.getFullYear()}/${String(now.getMonth()+1).padStart(2,'0')}/${String(now.getDate()).padStart(2,'0')}`;
-            const timeStr = `${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}:${String(now.getSeconds()).padStart(2,'0')}`;
-            document.getElementById('fullDateDisplay').innerText = `${dateStr} - ${timeStr} - ${days[now.getDay()]}`;
+            document.getElementById('fullDateDisplay').innerText = `${now.getFullYear()}/${String(now.getMonth()+1).padStart(2,'0')}/${String(now.getDate()).padStart(2,'0')} - ${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}:${String(now.getSeconds()).padStart(2,'0')} - ${days[now.getDay()]}`;
         }
-        setInterval(updateClock, 1000);
-        updateClock();
+        setInterval(updateClock, 1000); updateClock();
 
+        // 식별번호 생성
         function generateDSID() {
             const d = new Date();
-            const datePart = d.getFullYear().toString().slice(-2) + String(d.getMonth() + 1).padStart(2, '0') + String(d.getDate()).padStart(2, '0');
-            const ampm = d.getHours() < 12 ? 'A' : 'P';
-            const timePart = String(d.getHours()).padStart(2, '0') + String(d.getMinutes()).padStart(2, '0') + String(d.getSeconds()).padStart(2, '0');
-            return `DS${datePart}${ampm}${timePart}`;
+            return `DS${d.getFullYear().toString().slice(-2)}${String(d.getMonth()+1).padStart(2,'0')}${String(d.getDate()).padStart(2,'0')}${d.getHours()<12?'A':'P'}${String(d.getHours()).padStart(2,'0')}${String(d.getMinutes()).padStart(2,'0')}${String(d.getSeconds()).padStart(2,'0')}`;
         }
 
-        // 브라우저 직접 다운로드 함수
-        window.downloadFile = async function(category, fileName) {
-            try {
-                const targetFile = localFileNames[category];
-                // GitHub Pages 호스팅 시 현재 경로에서 파일을 찾습니다.
-                const response = await fetch(targetFile);
-                if(!response.ok) throw new Error("파일을 찾을 수 없습니다.");
-                
-                const blob = await response.blob();
-                const url = window.URL.createObjectURL(blob);
-                const a = document.createElement('a');
-                a.href = url;
-                a.download = fileName + ".pdf"; // 민준님이 정한 규칙 적용
-                document.body.appendChild(a);
-                a.click();
-                window.URL.revokeObjectURL(url);
-                document.body.removeChild(a);
-            } catch (err) {
-                alert("오류: GitHub에 " + localFileNames[category] + " 파일이 업로드되어 있는지 확인해주세요.");
+        // 로그인 핸들러
+        const authBtn = document.getElementById('authBtn');
+        const adminSection = document.getElementById('adminSection');
+
+        authBtn.onclick = () => {
+            if (auth.currentUser) {
+                signOut(auth).then(() => alert("로그아웃 되었습니다."));
+            } else {
+                signInWithPopup(auth, provider).catch(err => alert("로그인 실패: " + err.message));
             }
         };
 
-        window.deleteDocument = async function(id) {
-            if(confirm("정말로 이 정보를 삭제하시겠습니까?")) {
-                try {
-                    await deleteDoc(doc(db, "docs", id));
-                    alert("삭제되었습니다.");
-                } catch (err) { alert("삭제 실패: " + err.message); }
-            }
+        onAuthStateChanged(auth, (user) => {
+            adminSection.style.display = user ? "block" : "none";
+            authBtn.innerText = user ? "로그아웃" : "Google 로그인";
+            renderList();
+        });
+
+        // 다운로드/삭제 함수
+        window.downloadFile = async (category, fileName) => {
+            const response = await fetch(localFileNames[category]);
+            const blob = await response.blob();
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a'); a.href = url; a.download = fileName + ".pdf";
+            document.body.appendChild(a); a.click(); document.body.removeChild(a);
         };
 
-        const docForm = document.getElementById('docForm');
-        docForm.addEventListener('submit', async (e) => {
+        window.deleteDocument = async (id) => {
+            if(confirm("정말로 삭제하시겠습니까?")) await deleteDoc(doc(db, "docs", id));
+        };
+
+        // 데이터 등록
+        document.getElementById('docForm').onsubmit = async (e) => {
             e.preventDefault();
             const submitBtn = document.getElementById('submitBtn');
-            const category = document.getElementById('category').value;
             submitBtn.disabled = true;
-
             try {
                 await addDoc(collection(db, "docs"), {
                     dsId: generateDSID(),
                     grade: document.getElementById('grade').value,
                     semester: document.getElementById('semester').value,
                     subject: document.getElementById('subject').value,
-                    category: category,
+                    category: document.getElementById('category').value,
                     unit: document.getElementById('unit').value,
                     note: document.getElementById('note').value,
                     createdAt: serverTimestamp()
                 });
-                docForm.reset();
-            } catch (err) { alert("등록 실패: " + err.message); }
+                document.getElementById('docForm').reset();
+            } catch (err) { alert("에러: " + err.message); }
             finally { submitBtn.disabled = false; }
-        });
+        };
 
-        const q = query(collection(db, "docs"), orderBy("createdAt", "desc"));
-        onSnapshot(q, (snapshot) => {
-            const listBody = document.getElementById('documentList');
-            listBody.innerHTML = "";
-            let count = 1;
-            snapshot.forEach((snapDoc) => {
-                const data = snapDoc.data();
-                const id = snapDoc.id;
-                const fileName = `${data.dsId}_${data.subject}_${data.category}_${data.grade}-${data.semester}학기_${data.unit}단원`;
-                const row = `
-                    <tr>
-                        <td>${count++}</td>
-                        <td>${data.dsId}</td>
-                        <td>${data.grade}</td>
-                        <td>${data.semester}</td>
-                        <td>${data.subject}</td>
-                        <td>${data.category}</td>
-                        <td>${data.unit}</td>
-                        <td style="white-space:pre-wrap; text-align:left;">${data.note || '-'}</td>
-                        <td>
-                            <button class="btn-download" onclick="downloadFile('${data.category}', '${fileName}')">다운로드</button>
-                            <button class="btn-delete" onclick="deleteDocument('${id}')">삭제</button>
-                        </td>
-                    </tr>
-                `;
-                listBody.innerHTML += row;
+        // 목록 표시
+        function renderList() {
+            const q = query(collection(db, "docs"), orderBy("createdAt", "desc"));
+            onSnapshot(q, (snapshot) => {
+                const listBody = document.getElementById('documentList');
+                listBody.innerHTML = "";
+                let count = 1;
+                snapshot.forEach((snapDoc) => {
+                    const data = snapDoc.data();
+                    const id = snapDoc.id;
+                    const fileName = `${data.dsId}_${data.subject}_${data.category}_${data.grade}-${data.semester}학기_${data.unit}단원`;
+                    listBody.innerHTML += `
+                        <tr>
+                            <td>${count++}</td><td>${data.dsId}</td><td>${data.grade}</td><td>${data.semester}</td>
+                            <td>${data.subject}</td><td>${data.category}</td><td>${data.unit}</td>
+                            <td>${data.note || '-'}</td>
+                            <td>
+                                <button class="btn-download" onclick="downloadFile('${data.category}', '${fileName}')">다운로드</button>
+                                <button class="btn-delete" style="display:${auth.currentUser?'inline-block':'none'}" onclick="deleteDocument('${id}')">삭제</button>
+                            </td>
+                        </tr>`;
+                });
             });
-        });
+        }
     </script>
 </body>
 </html>
